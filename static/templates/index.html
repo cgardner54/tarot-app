@@ -12,49 +12,18 @@
   </head>
   <body>
     <section id="description">
-      <h1>Part 4: AJAX</h1>
+      <h1>Tarot App</h1>
       <p>
-        If you haven't finished Part 1 of this assessment, go back and finish it.
-        This part of the assessment won't work unless you've done that.
+        This is the tarot APP
       </p>
     </section>
 
-    <section id="select-human">
-      <h3>Select ID</h3>
+    <section id="Spreads">
+      <h3>Would you like to select a spread?</h3>
 
       <p>
-        Select an ID number to view information about a particular human.
+        <button type="button">Spreads!</button>
       </p>
-
-      <form id="get-human">
-        <label for="human-id">
-          Select an ID number:
-        </label>
-        <select id="human-id" name="human_id">
-          <option value="">Choose an ID</option>
-          {% for n in range(1, 6) %}
-            <option value="{{ n }}">{{ n }}</option>
-          {% endfor %}
-        </select>
-        <input type="submit">
-      </form>
-    </section>
-
-    <section id="display-human">
-      <h3>Human Info</h3>
-
-      <dl>
-        <dt>First Name</dt>
-        <dd id="fname">Unknown</dd>
-
-        <dt>Last Name</dt>
-        <dd id="lname">Unknown</dd>
-
-        <dt>Email</dt>
-        <dd id="email">Unknown</dd>
-      </dl>
-    </section>
-
     <script src="/static/ajax.js"></script>
   </body>
 </html>

@@ -4,7 +4,7 @@ This file is used in Part 2 and 3 of Skills 5: SQLAlchemy & AJAX. You need to
 complete Part 1 first, otherwise this part of the assessment won't work.
 """
 
-from model import db, Human, Animal
+from model import db, Cards, Spreads, Decks
 
 
 def get_human_2():

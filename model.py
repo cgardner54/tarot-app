@@ -45,11 +45,59 @@ class Decks(db.Model):
                         primary_key=True, 
                         autoincrement=True)
     card_id = db.Column(db.Integer, 
-                        db.ForeignKey('cards.card_id'),
-                        nullable=False)
+                        db.ForeignKey('cards.card_id'))
     deck_name = db.Column(db.String(200),
                         nullable=False)
     number_of_cards = db.Column(db.Integer)
+
+    def __repr__(self):
+        """Show info about cards."""
+        return f"deck_id={self.deck_id} deck_name={self.deck_name}>"
+
+class Spreads(db.Model):
+    """Data model for a Spread."""
+
+    __tablename__ = 'spreads'
+
+    spread_id = db.Column(db.Integer, 
+                        primary_key=True, 
+                        autoincrement=True)
+    card_id = db.Column(db.Integer, 
+                        db.ForeignKey('cards.card_id'))
+    spread_name = db.Column(db.String(200),
+                        nullable=False)
+    qty_cards = db.Column(db.Integer)
+    
+    def __repr__(self):
+        """Show info about Spreads."""
+        return f"spread_id={self.spread_id} spread_name={self.spread_name}>"
+
+class Readings(db.Model):
+    """Data model for all Readings."""
+
+    __tablename__ = 'readings'
+
+    reading_id = db.Column(db.Integer, 
+                        primary_key=True, 
+                        autoincrement=True)
+    card_id = db.Column(db.Integer, 
+                        db.ForeignKey('cards.card_id'))
+    spread_id = db.Column(db.Integer, 
+                        db.ForeignKey('spread.spread_id'))
+    qty_cards = db.Column(db.Integer)
+
+    # card_1 = db.Column(db.('db.ForeignKey('cards.card_id'))'))
+    # card_1_reversed = True or False
+
+    # card_2 = db.Column(db.('db.ForeignKey('cards.card_id'))'))
+    # card_2_reversed = True or False
+
+    # card_3 = db.Column(db.('db.ForeignKey('cards.card_id'))'))
+    # card_3_reversed = True or False
+    
+    def __repr__(self):
+        """Show info about Spreads."""
+        return f"spread_id={self.spread_id} spread_name={self.spread_name}>"
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
