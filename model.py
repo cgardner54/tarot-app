@@ -12,49 +12,49 @@ class Cards(db.Model):
 
     card_id = db.Column(db.Integer, 
                         primary_key=True, 
-                        autoincrement=True)
+                        autoincrement=True,
+                        nullable=False)
     card_name = db.Column(db.String(25),
                         nullable=False)
-    card_type = db.Column(db.String(25),
-                        nullable=False)
-    card_number = db.Column(db.String(25),
-                        nullable=False)
-    card_desc = db.Column(db.Text,
-                        nullable=False)
-    card_reversed_desc = db.Column(db.Text,
-                        nullable=False)
+    card_type = db.Column(db.String(25)
+                        #nullable=False
+                        )
+    card_number = db.Column(db.String(25)
+                        #nullable=False
+                        )
+    card_desc = db.Column(db.Text
+                        #nullable=False
+                        )
+    card_reversed_desc = db.Column(db.Text)
     card_suit = db.Column(db.String)
     card_image = db.Column(db.String)
 
-    animals = db.relationship('Animal', backref='humans')
+    decks = db.relationship('Decks', backref='cards')
 
     def __repr__(self):
-        """Show info about humans."""
+        """Show info about cards."""
 
-        return f"<human_id={self.human_id} fname={self.fname} lname={self.lname} email={self.email}>"
+        return f"<card_id={self.card_id} card_name={self.card_name}>"
 
-class Animal(db.Model):
-    """Data model for an animal."""
+class Decks(db.Model):
+    """Data model for a Deck."""
 
-    __tablename__ = 'animals'
+    __tablename__ = 'decks'
 
-    animal_id = db.Column(db.Integer, 
+    deck_id = db.Column(db.Integer, 
                         primary_key=True, 
                         autoincrement=True)
-    human_id = db.Column(db.Integer, 
-                        db.ForeignKey('humans.human_id'),
+    card_id = db.Column(db.Integer, 
+                        db.ForeignKey('cards.card_id'),
                         nullable=False)
-    name = db.Column(db.String(50),
+    deck_name = db.Column(db.String(200),
                         nullable=False)
-    animal_species = db.Column(db.String(25),
-                        nullable=False)
-    birth_year = db.Column(db.Integer,
-                        nullable=True)
+    number_of_cards = db.Column(db.Integer)
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///animals'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///tarot'
     app.config['SQLALCHEMY_ECHO'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
