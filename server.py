@@ -2,7 +2,7 @@
 """
 
 from flask import Flask, jsonify, render_template
-from model import connect_to_db, Cards, Decks, Spreads, User, Readings, CardReading
+from model import connect_to_db, Cards#, Decks, Spreads, User, Readings, CardReading
 
 
 app = Flask(__name__)
@@ -19,17 +19,15 @@ def homepage():
 def card(card_id):
     """Return a human from the database as JSON."""
 
-    human = Human.query.get(human_id)
+    card = Cards.query.get(card_id)
 
-    if human:
+    if card:
         return jsonify({'status': 'success',
-                        'human_id': human.human_id,
-                        'fname': human.fname,
-                        'lname': human.lname,
-                        'email': human.email})
+                        'card_id': cards.card_id,
+                        'card_name': cards.card_name})
     else:
         return jsonify({'status': 'error',
-                        'message': 'No human found with that ID'})
+                        'message': 'No hcarduman found with that ID'})
 
 
 if __name__ == '__main__':
