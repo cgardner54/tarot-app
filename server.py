@@ -2,7 +2,7 @@
 """
 
 from flask import Flask, jsonify, render_template
-from model import connect_to_db, Cards
+from model import connect_to_db, Cards, Decks, Spreads, User, Readings, CardReading
 
 
 app = Flask(__name__)
@@ -15,8 +15,8 @@ def homepage():
     return render_template('index.html')
 
 
-@app.route('/api/human/<int:human_id>')
-def get_human(human_id):
+@app.route('/api/cards/<int:card_id>')
+def card(card_id):
     """Return a human from the database as JSON."""
 
     human = Human.query.get(human_id)

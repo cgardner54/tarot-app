@@ -6,24 +6,6 @@ complete Part 1 first, otherwise this part of the assessment won't work.
 
 from model import db, Cards, Spreads, Decks, Readings
 
-def create_seeds():
-    """Create and return a new user."""
-
-    card_death = Cards(card_name="Death", 
-                        card_number="XIII", 
-                        card_desc="Description of death",
-                        card_reversed_desc="Reversed",
-                        card_suit="Major_Arcana",
-                        card_image="/static/death.jpg"
-                        
-      )
-
-    db.session.add(card_death)
-    db.session.commit()
-
-    return card_death
-
-
 def get_human_2():
     """Return the human with the id 2."""
     return (Human.query.get(2))
