@@ -2,8 +2,7 @@
 """
 
 from flask import Flask, jsonify, render_template
-from model import connect_to_db, Card, Deck, Spread, User#, Readings, CardReading
-
+from model import connect_to_db, Card, Deck, Spread, User, Reading, CardReading
 
 app = Flask(__name__)
 
@@ -65,11 +64,40 @@ def user(user_id):
 
     if user:
         return jsonify({'status': 'success',
-                        'user_id': spreads.spread_id,
-                        'user_name': spreads.spread_name})
+                        'user_id': users.spread_id,
+                        'user_name': users.spread_name})
     else:
         return jsonify({'status': 'error',
                         'message': 'No spread found with that ID'})
+
+@app.route('/api/readings/<int:reading_id>')
+def reading(reading_id):
+    """Return a reading from the database as JSON."""
+
+    reading = Reading.query.get(reading_id)
+
+    if reading:
+        return jsonify({'status': 'success',
+                        'reading_id': readings.reading_id,
+                        'reading_name': readings.reading_name,
+                        'reading_card:': readings.reading_card})
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No reading found with that ID'})
+
+@app.route('/api/cardreadings/<int:card_reading_id>')
+def card_reading(card_reading_id):
+    """Return a reading from the database as JSON."""
+
+    card_reading = CardReading.query.get(card_reading_id)
+
+    if card_reading:
+        return jsonify({'status': 'success',
+                        'card_reading_id': cardreadings.card_reading_id,
+                        'reading_id': cardreadings.reading_id})
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No reading found with that ID'})
 
 if __name__ == '__main__':
     connect_to_db(app)
