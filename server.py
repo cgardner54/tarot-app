@@ -13,6 +13,11 @@ def homepage():
 
     return render_template('index.html')
 
+@app.route('/three_card_spread')
+def three_card_page():
+    """show a three card spread"""
+    
+    return render_template('threecards.html')
 
 @app.route('/api/cards/<int:card_id>')
 def card(card_id):
@@ -100,5 +105,5 @@ def card_reading(card_reading_id):
                         'message': 'No reading found with that ID'})
 
 if __name__ == '__main__':
-    connect_to_db(app)
+    #connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)

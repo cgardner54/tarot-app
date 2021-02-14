@@ -1,8 +1,14 @@
 """ Data Model for Tarot-app """
-
+import os
 from flask_sqlalchemy import SQLAlchemy
-
+os.system('dropdb tarot')
+os.system('createdb tarot')
 db = SQLAlchemy()
+
+#import seed_database
+
+print("seeds!")
+
 
 class Card(db.Model):
     """Class for each card in Database"""
@@ -144,21 +150,25 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///tarot'
-    app.config['SQLALCHEMY_ECHO'] = False
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     
     db.app = app
     db.init_app(app)
 
+    print('Connected to DB!')
 
 if __name__ == '__main__':
     from server import app
     from flask import Flask
 
-    import seed_database
-    print("seeds! !!")
+    #connect_to_db(db.app)
+    #db.create_all()
     # As a convenience, if we run this module interactively, it will leave
     # you in a state of being able to work with the database directly.
-    connect_to_db
-    print('Connected to DB!')
+    #print("HERE?")
+    #connect_to_db(app)
+    #print("This one")
+    
+    #db.create_all()
     

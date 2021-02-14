@@ -5,10 +5,11 @@ from random import choice, randint
 from model import db, connect_to_db, Card, Deck, Spread, User, Reading, CardReading
 import server
 
-os.system('dropdb tarot')
-os.system('createdb tarot')
+# os.system('dropdb tarot')
+# os.system('createdb tarot')
 
 connect_to_db(server.app)
+
 db.create_all()
 
 
@@ -27,6 +28,15 @@ card_empress = Card(card_name="Empress",
                     card_number="III", 
                     card_desc="Description of Empress",
                     card_reversed_desc="Reversed Empress",
+                    card_suit="Major_Arcana",
+                    card_image="/static/empress.jpeg"
+                    
+  )
+
+card_priestess = Card(card_name="High Priestess", 
+                    card_number="II", 
+                    card_desc="Description of EmpHigh Priestess",
+                    card_reversed_desc="Reversed Priestess",
                     card_suit="Major_Arcana",
                     card_image="/static/empress.jpeg"
                     
