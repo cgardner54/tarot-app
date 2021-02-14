@@ -1,11 +1,11 @@
 """ Data Model for Tarot-app """
 import os
 from flask_sqlalchemy import SQLAlchemy
-os.system('dropdb tarot')
+#os.system('dropdb tarot')
 os.system('createdb tarot')
 db = SQLAlchemy()
 
-#import seed_database
+import seed_database
 
 print("seeds!")
 
@@ -167,8 +167,8 @@ if __name__ == '__main__':
     # As a convenience, if we run this module interactively, it will leave
     # you in a state of being able to work with the database directly.
     #print("HERE?")
-    #connect_to_db(app)
+    connect_to_db(app)
     #print("This one")
     
-    #db.create_all()
+    db.create_all()
     
