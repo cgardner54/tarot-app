@@ -2,7 +2,7 @@
 import os
 import json
 from random import choice, randint
-from model import db, connect_to_db, Card, Deck, Spread, User, Reading, CardReading
+from model import db, Card, Deck, Spread, User, Reading, CardReading , connect_to_db 
 import server
 
 # os.system('dropdb tarot')

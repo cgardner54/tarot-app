@@ -1,5 +1,6 @@
-from model import db,connect_to_db, Card, Spread, Deck, Reading, CardReading, User
-
+from sqlalchemy.sql.expression import func
+from random import choices, sample
+from model import db, connect_to_db, Card, Spread, Deck, Reading, CardReading, User
 def create_user(user_name):
 
     user = User(user_name=user_name)
@@ -28,38 +29,27 @@ def create_deck(deck_name, deck_type, number_of_cards):
 
     return deck
 
-def select_a_card():
-    return Card.query.first()
+def get_cards():
+    cards = Card.query.all()
+    return sample(Card.query.all(),3)
 
-def select_cards_3(deck_name=tarot)
-    reading = []
-    reading = random.sample(deck_id(1), 3)
-    return reading, reading id, card ids, 
+#pusedo-code here
+# def select_cards_3(deck_name=tarot):
+#     reading = []
+#     reading = random.sample(deck_id(1), 3)
+#     return reading, reading_id, cardids
 
 
 # def deck(deck_name):
 #     """Return the human with the id 2."""
 #     return (CardReading.query.card_id.all(reading_id=1))
-#     """create a user"""
-#     """create a card"""
 #     """create a reading"""
 #     """create a spread"""
-#     """create a deck"""
 #     """create a cardreading"""
 
 #     """for a given reading, return cards in spread"""
 #     """
 #     # Functions start here!"""
-
-# def create_user(username):
-#     """Create and return a new user."""
-
-#     user = User(username=username)
-
-#     db.session.add(user)
-#     db.session.commit()
-
-#     return user
 
 #     """Return all cards in a three card reading"""
 #     """Return all readings for a User"""

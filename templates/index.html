@@ -1,3 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Tarot App Home{% endblock %}
+
+{% block body %}
+  <h1>Tarot app welcomes you!!</h1>
+  
+  <div>
+    <p>
+  <section id="Spreads">
+    <h3>Would you like to select a spread?</h3>
+    <li><a href="/cards">Goto a 3 card spread</a></li>
+    <!-- <li><a href="/users">View all users</a></li> -->
+  </ul>
+  </section>
+    </p>
+</div>
+    <p>
+      <label for="User">Choose a Username:</label>
+
+      <select name="Username" id="username">
+        <option value="Amanda2021">Amanda2021</option>
+        <option value="User2">User2</option>
+      </select>
+    </p>
+  <script src="/static/ajax.js"></script>
+{% endblock %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,24 +38,6 @@
       crossorigin="anonymous"></script>
   </head>
   <body>
-    <section id="description">
-      <h1>Tarot App</h1>
-      <p>
-        This is the tarot APP
-      </p>
-    </section>
-
-    <section id="Spreads">
-      <h3>Would you like to select a spread?</h3>
-
-      <p>
-        <label for="User">Choose a Username:</label>
-
-        <select name="Username" id="username">
-          <option value="Amanda2021">Amanda2021</option>
-          <option value="User2">User2</option>
-        </select>
-      </p>
-    <script src="/static/ajax.js"></script>
+   
   </body>
 </html>

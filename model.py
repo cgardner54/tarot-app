@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 os.system('createdb tarot')
 db = SQLAlchemy()
 
-import seed_database
+#import seed_database
 
 print("seeds!")
 
@@ -111,6 +111,7 @@ class Reading(db.Model):
                         db.ForeignKey('spreads.spread_id'))
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'))
+    
     #reading_card = db.Column(db.Integer, 
     #                     db.ForeignKey('cardreadings.card_reading_id'))
 
