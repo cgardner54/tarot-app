@@ -30,8 +30,10 @@ def create_deck(deck_name, deck_type, number_of_cards):
     return deck
 
 def get_cards():
-    cards = Card.query.all()
-    return sample(Card.query.all(),3)
+    cards = sample(Card.query.all(),3)
+    print(cards)
+    #Card.query.all()
+    return cards
 
 #pusedo-code here
 # def select_cards_3(deck_name=tarot):

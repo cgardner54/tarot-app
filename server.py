@@ -114,13 +114,14 @@ def get_cards():
 
     server_cards = crud.get_cards()
     print(server_cards)
-    three_card_dict = {"card1name":  server_cards[0].card_name,
-                        "card2name":  server_cards[1].card_name,
-                        "card3name":  server_cards[2].card_name
+    three_card_dict = {"card1name":  server_cards[0].card_image,
+                        "card2name":  server_cards[1].card_image,
+                        "card3name":  server_cards[2].card_image
                         }
     card1 = three_card_dict.get("card1name")
     card2 = three_card_dict.get("card2name")
     card3 = three_card_dict.get("card3name")
+
     #json_three_card_dict = jsonify(three_card_dict)
     return render_template('cards.html', card1=card1, card2=card2, card3=card3)
 

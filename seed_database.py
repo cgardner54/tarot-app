@@ -5,8 +5,8 @@ from random import choice, randint
 from model import db, Card, Deck, Spread, User, Reading, CardReading , connect_to_db 
 import server
 
-# os.system('dropdb tarot')
-# os.system('createdb tarot')
+os.system('dropdb tarot')
+os.system('createdb tarot')
 
 connect_to_db(server.app)
 
@@ -38,10 +38,25 @@ card_priestess = Card(card_name="High Priestess",
                     card_desc="Description of EmpHigh Priestess",
                     card_reversed_desc="Reversed Priestess",
                     card_suit="Major_Arcana",
-                    card_image="/static/empress.jpeg"
+                    card_image="/static/02_High_Priestess.jpg"
                     
   )
-
+card_fool = Card(card_name="fool", 
+                    card_number="II", 
+                    card_desc="Description of the fool",
+                    card_reversed_desc="Reversed fool",
+                    card_suit="Major_Arcana",
+                    card_image="/static/thefool.jpg"
+                    
+  )
+card_moon = Card(card_name="the moon", 
+                    card_number="II", 
+                    card_desc="Description of the moon",
+                    card_reversed_desc="Reversed moon",
+                    card_suit="Major_Arcana",
+                    card_image="/static/themoon.jpeg"
+                    
+  )
 deck_tarot = Deck(deck_name="Rider-Waite",
                   deck_type="Tarot",
                   number_of_cards=78
@@ -58,12 +73,16 @@ test_reading = Reading(reading_name="test")
 card_reading1 = CardReading(card_id=card_death.card_id, reading_id=test_reading.reading_id)
 
 db.session.add(card_empress)
+db.session.add(card_priestess)
+db.session.add(card_fool)
 db.session.add(deck_tarot)
+db.session.add(card_death)
+db.session.add(card_moon)
 db.session.commit()
 
 db.session.add(test_reading)
 db.session.add(amanda_user)
-db.session.add(card_death)
+
 
 db.session.add(three_card_spread)
 db.session.add(card_reading1)

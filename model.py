@@ -163,6 +163,7 @@ if __name__ == '__main__':
     from server import app
     from flask import Flask
 
+    
     #connect_to_db(db.app)
     #db.create_all()
     # As a convenience, if we run this module interactively, it will leave
