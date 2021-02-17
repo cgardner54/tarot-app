@@ -1,0 +1,11 @@
+#card1{
+    align-items: center;
+    text-align:left;
+    margin:50px auto; 
+}
+#images a{
+    margin:0px 20px;
+    display:inline-block;
+    text-decoration:none;
+    color:black;
+ }

@@ -1,13 +1,14 @@
 <script src="javascript_cards.js"></script>
+<style src="style.css"></style>
 {% extends 'base.html' %}
 
 
 {% block title %}All Cards{% endblock %}
 
 {% block body %}
-  <img src="{{ card1 }}"" alt="{{ card1 }}" style="width:300px;height:400px;">
 
-  <img src="{{ card2 }}"" alt="{{ card2 }}" style="width:300px;height:400px;">
-  
-  <img src="{{ card3 }}"" alt="{{ card3 }}" style="width:300px;height:400px;">
+  <img src="{{ img_name1 }}" alt="{{ card1 }}" style="width:300px;height:400px;">
+  <img src="{{ img_name2 }}" alt="{{ card2 }}" style="width:300px;height:400px;">
+  <img src="{{ img_name3 }}" alt="{{ card3 }}" style="width:300px;height:400px;">
+ 
 {% endblock %}
