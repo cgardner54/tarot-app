@@ -6,9 +6,15 @@
 {% block title %}All Cards{% endblock %}
 
 {% block body %}
-
-  <img src="{{ img_name1 }}" alt="{{ card1 }}" style="width:300px;height:400px;">
-  <img src="{{ img_name2 }}" alt="{{ card2 }}" style="width:300px;height:400px;">
-  <img src="{{ img_name3 }}" alt="{{ card3 }}" style="width:300px;height:400px;">
- 
+<div id="three_card_container">
+  <div class="three_card">
+    <img src="{{ img_name1 }}" alt="{{ card1 }}" id="{{ orient_the_card1 }}" style="width:300px;height:400px;">
+  </div>
+  <div class="three_card">
+    <img src="{{ img_name2 }}" alt="{{ card2 }}" id="{{ orient_the_card2 }}" style="width:300px;height:400px;">
+  </div>
+  <div class="three_card">
+    <img src="{{ img_name3 }}" alt="{{ card3 }}" id="{{ orient_the_card3 }}" style="width:300px;height:400px;">
+  </div>
+</div>
 {% endblock %}

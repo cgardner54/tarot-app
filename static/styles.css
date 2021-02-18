@@ -4,8 +4,21 @@ body {
 	grid-template: "desc desc" auto
 	               "form info" auto / 1fr 1fr;
 	grid-gap: 2em;
+	background-color: #f8ceec;
+	background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
 }
-
+#three_card_container {
+	margin: 0 auto;
+  }
+  #three_card_container .three_card {
+	  display:inline-block;
+	  width:50%;
+  }
+  #three_card_container .three_card img {
+	  max-width:100%;
+	  margin:0;
+	  padding:0;
+  }
 dt {
 	font-weight: bold;
 }
@@ -34,4 +47,8 @@ h3 {
 
 #display-human {
 	grid-area: info;
+}
+
+#reversed_card {
+    transform: rotate(180deg);        
 }
