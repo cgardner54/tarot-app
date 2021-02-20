@@ -45,9 +45,9 @@ def orient_the_card():
         Cards have a 1/4 chance of being reversed."""
     random_number = random.randint(0, 3)
     if random_number == 0:
-        return "reversed_card"
+        return "meaning_rev"
     else:
-        return "upright"
+        return "meaning_up"
 
 
 @app.route('/')
@@ -160,16 +160,17 @@ def get_cards(position1=0, position2=1, position3=2):
     img_name3 = find_image_name(api_cards, position3)
 
 
-
-    card1 = api_cards['cards'][position1]['name']
-    card1desc = api_cards['cards'][position1]['meaning_up']
-    card2 = api_cards['cards'][position2]['name']
-    card2desc = api_cards['cards'][position2]['meaning_up']
-    card3 = api_cards['cards'][position3]['name']
-    card3desc = api_cards['cards'][position3]['meaning_up']
     orient_the_card1 = orient_the_card()
     orient_the_card2 = orient_the_card()
     orient_the_card3 = orient_the_card()
+    card1 = api_cards['cards'][position1]['name']
+    card1desc = api_cards['cards'][position1][orient_the_card1]
+    card2 = api_cards['cards'][position2]['name']
+    card2desc = api_cards['cards'][position2][orient_the_card2]
+    card3 = api_cards['cards'][position3]['name']
+    card3desc = api_cards['cards'][position3][orient_the_card3]
+
+    #reading id here or card reading id to save the reading
 
     return render_template('cards.html', 
                             card1=card1, 
