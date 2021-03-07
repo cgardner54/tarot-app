@@ -1,0 +1,143 @@
+Dead code
+
+Space for functions and other code that needs to hang out but doesn't fit the program right now....
+
+#this is the API request for three random cards
+    # server_cards3 = requests.get('https://rws-cards-api.herokuapp.com/api/v1/cards/random?n=3')
+    # #this turns the json into a dictionary
+    # api_cards = server_cards3.json()
+    # print(api_cards)
+   
+
+def find_image_name(api_cards,card_position):
+        card_type = api_cards['cards'][card_position]['type']
+        print(card_type)
+        value = str(api_cards['cards'][card_position]['value_int'])
+        """this figures out if the card's value integer is one digit or two,
+            if the card type is major or minor, the suit, and then creates the correct
+            naming convention to pull the correct image from the server
+        """
+        if len(value) == 1:
+            value = "0" + value
+        if card_type == "major":
+                img_name = "static/cards/m" + value + ".jpg"
+                return img_name
+        elif card_type == "minor":
+                suit = str(api_cards['cards'][card_position]['suit'])
+                suit_char = suit[0]
+                img_name = "static/cards/" + suit_char + value + ".jpg"
+                return img_name
+
+    #img_name1 = find_image_name(api_cards, position1)
+    #img_name2 = find_image_name(api_cards, position2)
+    #img_name3 = find_image_name(api_cards, position3)
+
+                            img_name1=img_name1,
+                            img_name2=img_name2,
+                            img_name3=img_name3,
+# # def get_first_fish():
+# #     """Return the FIRST animal with the species 'fish'."""
+# #     return Animal.query.filter_by(animal_species='fish').first()
+
+# # def get_young_animals():
+# #     """Return all animals that were born after 2015.
+
+# #     Do NOT include animals without birth years.
+# #     """
+# #     young_animals = Animal.query.filter(birth_year > 2015).all()
+# #     return young_animals
+
+# #         ### I can't figure out why my operators are not working.
+    
+
+# # def get_j_names():
+# #     """Return the humans with first names that start with 'J'."""
+# #     return Human.query.filter(fname='J%').all
+
+# #     #not sure how to index into the fname... for J.
+
+# # def get_null_bdays():
+# #     """Return all animals whose birth years are NULL."""
+
+# #     return Animal.query.filter(birth_year = None).all()
+
+# # def get_fish_or_rabbits():
+# #     """Return all animals whose species is 'fish' OR 'rabbit'."""
+# #     fish = Animal.query.filter_by(animal_species='fish').all()
+# #     rabbit = Animal.query.filter_by(animal_species='rabbit').all()
+# #     return fish, rabbit
+# #     #I can't figure out why my operators are not working. Would've liked to do this in one line
+
+# # def print_directory():
+# #     """Output a list of humans and their animals.
+
+# #     For example:
+
+# #     >>> print_directory()
+# #     Justin Time
+# #     - Peter (rabbit)
+# #     - Peppa (pig)
+# #     Carmen Sandiego
+# #     - Blub (fish)
+
+# #     You may only use ONE query to retrieve initial data. (Hint: leverage a
+# #     SQLAlchemy relationship to retrieve additional information)
+# #     """
+
+
+# # def find_humans_by_animal_species(species):
+# #     """Return a list of all humans who have animals of the given species.
+
+# #     Each human should only appear once in the returned list. For example:
+
+# #     >>> find_humans_by_animal_species('snake')
+
+# #     Again, you may only use ONE query to retrieve initial data. (Hint: use a
+# #     relationship! Also, you can pursue uniqueness in a Pythonic way --- you
+# #     don't have to do it with pure SQLAlchemy)
+# #     """
+
+
+@app.route('/api/cards/<int:card_id>')
+def card(card_id):
+    """Return a Card from the database as JSON."""
+
+    card = Card.query.get(card_id)
+
+    if card:
+        cards = {'status': 'success',
+                'card_id': card.card_id,
+                'card_name': card.card_name}
+        return jsonify(cards)
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No card found with that ID'})
+
+@app.route('/api/decks/<int:deck_id>')
+def deck(deck_id):
+    """Return a human from the database as JSON."""
+
+    deck = Deck.query.get(deck_id)
+
+    if deck:
+        return jsonify({'status': 'success',
+                        'deck_id': deck.deck_id,
+                        'deck_name': deck.deck_name})
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No deck found with that ID'})
+
+@app.route('/api/spreads/<int:spread_id>')
+def spread(spread_id):
+    """Return a spread from the database as JSON."""
+
+    spread = Spread.query.get(spread_id)
+
+    if spread:
+        return jsonify({'status': 'success',
+                        'spread_id': spread.spread_id,
+                        'spread_name': spread.spread_name})
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No spread found with that ID'})
+ <!-- <img src="{{ img_name1 }}" hidden alt="{{ card1 }}" id="card" value="2" style="width:300px;height:400px;"> -->

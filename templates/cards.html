@@ -1,30 +1,21 @@
-<script src="javascript_cards.js"></script>
-<style src="style.css"></style>
 {% extends 'base.html' %}
 
 
 {% block title %}All Cards{% endblock %}
 
 {% block body %}
-<div style="overflow-x:auto;">
-  <table>
     <div id="three_card_container">
-      <tr>
-        <p>Past</p>
-        <img src="{{ img_name1 }}" alt="{{ card1 }}" id="{{ orient_the_card1 }}" style="width:300px;height:400px;">
-        <p>{{ card1 }}</p>
-        <p>{{ card1desc }}</p>
-        <p>Present</p>
-        <img src="{{ img_name2 }}" alt="{{ card2 }}" id="{{ orient_the_card2 }}" style="width:300px;height:400px;">
-        <p>{{ card2 }}</p>
-        <p>{{ card2desc }}</p>
-        <p>Future</p>
-        <img src="{{ img_name3 }}" alt="{{ card3 }}" id="{{ orient_the_card3 }}" style="width:300px;height:400px;">
-        <p>{{ card3 }}</p>
-        <p>{{ card3desc }}</p>
-      </tr>
-      </div>
-  </table>
-</div>
+        <img id="img" src="static/back_of_cards.jpg" width="300" height="400">
+        <h1>{{ card1 }}</h1>
+        <img id="img" src="{{ card1_image }}" width="300" height="400">
+        <h1>{{ card2 }}</h1>
+        <h1>{{ card3 }}</h1>
+        
 
+      
+      </div>
+    <div id ="save_reading">
+      <a href="/get_cards_function/<int:reading_id>">Save Your Reading</a>
+    </div>
+<script src="static/stuff.js"></script>
 {% endblock %}

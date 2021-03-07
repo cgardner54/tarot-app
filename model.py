@@ -1,14 +1,76 @@
 """ Data Model for Tarot-app """
 import os
+import requests, random
 from flask_sqlalchemy import SQLAlchemy
+#from flask import Flask, jsonify, render_template
+#import crud
+from jinja2 import StrictUndefined
+#import server
 #os.system('dropdb tarot')
 os.system('createdb tarot')
 db = SQLAlchemy()
-
-#import seed_database
+#db.create_all()
+# seed_database
 
 print("seeds!")
 
+def create_cards():
+    """Create cards from API"""
+    #This is the request that gets all the cards from the API
+    server_cards3 = requests.get('https://rws-cards-api.herokuapp.com/api/v1/cards/')
+    #this turns the json into a dictionary
+    api_cards = server_cards3.json()
+    for x in range(78):
+        api_cardsx = api_cards['cards'][x]
+        card_name = api_cardsx['name']
+        #card_name_short = api_cardsx['name_short']
+        card_number = api_cardsx['value_int'] 
+        card_desc = api_cardsx['desc']
+        card_meaning_up = api_cardsx['meaning_up']
+        card_meaning_reversed = api_cardsx['meaning_rev']
+        card_type = api_cardsx['type'] 
+        if card_type == 'minor':
+            card_suit = api_cardsx['suit']
+        else: 
+            card_suit = None
+        value = str(api_cards['cards'][x]['value_int'])
+        
+        """this figures out if the card's value integer is one digit or two,
+            if the card type is major or minor, the suit, and then creates the correct
+            naming convention to pull the correct image from the server
+        """
+        if len(value) == 1:
+            value = "0" + value
+        if card_type == "major":
+                card_image = "static/cards/m" + value + ".jpg"
+        elif card_type == "minor":
+                suit_char = card_suit[0]
+                card_image = "static/cards/" + suit_char + value + ".jpg" 
+        
+        print(card_name, card_number, card_desc, card_image)
+        
+        card = Card(card_name=card_name, 
+                    card_number=card_number, 
+                    card_meaning_up=card_meaning_up, 
+                    card_meaning_reversed=card_meaning_reversed,
+                    card_desc=card_desc, 
+                    card_suit=card_suit,
+                    card_type=card_type,
+                    card_image=card_image
+                    )
+        db.session.add(card)
+        db.session.commit()
+
+def create_3_card_spread():
+    spread_name = 3
+    qty_cards_in_spread = 3
+
+    spread = Spread(spread_id=3,
+                    spread_name=spread_name,
+                    qty_cards_in_spread=qty_cards_in_spread)
+    
+    db.session.add(spread)
+    db.session.commit()
 
 class Card(db.Model):
     """Class for each card in Database"""
@@ -24,14 +86,17 @@ class Card(db.Model):
     card_name = db.Column(db.String(25),
                         nullable=False)
     card_number = db.Column(db.String(25))
+    card_meaning_up = db.Column(db.Text)
+    card_meaning_reversed = db.Column(db.Text)
     card_desc = db.Column(db.Text)
-    card_reversed_desc = db.Column(db.Text)
     card_suit = db.Column(db.String)
+    card_type = db.Column(db.String)
     card_image = db.Column(db.String)
 
-    #card_readings_card = db.relationship("CardReading", backref="cards")
+    card_readings_card = db.relationship("CardReading", backref="cards")
     
     def __repr__(self):
+        """Show info about a card"""
         return f"<Card card_id={self.card_id} card_name={self.card_name}>"
 
 class Deck(db.Model):
@@ -135,6 +200,8 @@ class CardReading(db.Model):
                             db.ForeignKey('readings.reading_id'))
     card_id = db.Column(db.Integer,
                             db.ForeignKey('cards.card_id'))
+    card_orient = db.Column(db.String,
+                            nullable=False)
 
     card = db.relationship('Card', backref="cardreadings")
     
@@ -160,9 +227,11 @@ def connect_to_db(app):
     print('Connected to DB!')
 
 if __name__ == '__main__':
-    from server import app
+    #from server import app
     from flask import Flask
-
+    app = Flask(__name__)
+    app.secret_key = "dev"
+    app.jinja_env.undefined = StrictUndefined
     
     #connect_to_db(db.app)
     #db.create_all()

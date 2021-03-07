@@ -3,42 +3,14 @@
 import requests, random
 from Imageflip import flip_mirror
 from PIL import Image, ImageOps 
-from flask import Flask, jsonify, render_template
-from model import connect_to_db, Card, Deck, Spread, User, Reading, CardReading
+from flask import Flask, jsonify, render_template, redirect, url_for
+from model import db, connect_to_db, Card, Deck, Spread, User, Reading, CardReading, create_3_card_spread
 import crud
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
-
-"""
-Create a class called cards
-here we would have a method to call a card, number it and determine if it should
-be upside down or not
-we should also pull in the title, and meaning
-iif the card is upside down, add the class tag to it, with a value reversed or not.
-"""
-#class Card:
-
-
-def find_image_name(api_cards,card_position):
-        card_type = api_cards['cards'][card_position]['type']
-        value = str(api_cards['cards'][card_position]['value_int'])
-        """this figures out if the card's value integer is one digit or two,
-            if the card type is major or minor, the suit, and then creates the correct
-            naming convention to pull the correct image from the server
-        """
-        if len(value) == 1:
-            value = "0" + value
-        if card_type == "major":
-                img_name = "static/cards/m" + value + ".jpg"
-                return img_name
-        elif card_type == "minor":
-                suit = str(api_cards['cards'][card_position]['suit'])
-                suit_char = suit[0]
-                img_name = "static/cards/" + suit_char + value + ".jpg"
-                return img_name
 
 def orient_the_card():
     """This randomly decides what direction the card should appear.
@@ -49,60 +21,18 @@ def orient_the_card():
     else:
         return "meaning_up"
 
-
 @app.route('/')
 def homepage():
     """Show the homepage."""
 
     return render_template('index.html')
 
-@app.route('/three_card_spread')
-def three_card_page():
-    """show a three card spread"""
+@app.route('/login')
+def login():
+    """Show the login page."""
+
+    return render_template('login.html')
     
-@app.route('/api/cards/<int:card_id>')
-def card(card_id):
-    """Return a human from the database as JSON."""
-
-    card = Card.query.get(card_id)
-
-    if card:
-        cards = {'status': 'success',
-                'card_id': card.card_id,
-                'card_name': card.card_name}
-        return jsonify(cards)
-    else:
-        return jsonify({'status': 'error',
-                        'message': 'No card found with that ID'})
-
-@app.route('/api/decks/<int:deck_id>')
-def deck(deck_id):
-    """Return a human from the database as JSON."""
-
-    deck = Deck.query.get(deck_id)
-
-    if deck:
-        return jsonify({'status': 'success',
-                        'deck_id': deck.deck_id,
-                        'deck_name': deck.deck_name})
-    else:
-        return jsonify({'status': 'error',
-                        'message': 'No deck found with that ID'})
-
-@app.route('/api/spreads/<int:spread_id>')
-def spread(spread_id):
-    """Return a spread from the database as JSON."""
-
-    spread = Spread.query.get(spread_id)
-
-    if spread:
-        return jsonify({'status': 'success',
-                        'spread_id': spread.spread_id,
-                        'spread_name': spread.spread_name})
-    else:
-        return jsonify({'status': 'error',
-                        'message': 'No spread found with that ID'})
-
 @app.route('/api/users/<int:user_id>')
 def user(user_id):
     """Return a spread from the database as JSON."""
@@ -132,8 +62,12 @@ def reading(reading_id):
         return jsonify({'status': 'error',
                         'message': 'No reading found with that ID'})
 
-@app.route('/api/cardreadings/<int:card_reading_id>')
-def card_reading(card_reading_id):
+ 
+@app.route('/api/cardreading/<card1>')
+def card_reading(reading_id):
+    # Psuedocode
+    #    card1 = Reading.query.get(cardreading.card)
+    #    card2 = 
     """Return a reading from the database as JSON."""
 
     card_reading = CardReading.query.get(card_reading_id)
@@ -146,49 +80,79 @@ def card_reading(card_reading_id):
         return jsonify({'status': 'error',
                         'message': 'No reading found with that ID'})
 
-@app.route('/cards')
-def get_cards(position1=0, position2=1, position3=2):
-    #this is the API request for three random cards
-    server_cards3 = requests.get('https://rws-cards-api.herokuapp.com/api/v1/cards/random?n=3')
-    #this turns the json into a dictionary
-    api_cards = server_cards3.json()
-    print(api_cards)
-    """View three card."""
-    img_name1 = find_image_name(api_cards, position1)
-    img_name2 = find_image_name(api_cards, position2)
-
-    img_name3 = find_image_name(api_cards, position3)
 
 
-    orient_the_card1 = orient_the_card()
-    orient_the_card2 = orient_the_card()
-    orient_the_card3 = orient_the_card()
-    card1 = api_cards['cards'][position1]['name']
-    card1desc = api_cards['cards'][position1][orient_the_card1]
-    card2 = api_cards['cards'][position2]['name']
-    card2desc = api_cards['cards'][position2][orient_the_card2]
-    card3 = api_cards['cards'][position3]['name']
-    card3desc = api_cards['cards'][position3][orient_the_card3]
-
-    #reading id here or card reading id to save the reading
+@app.route('/threecards/<string:card1>/<string:card2>/<string:card3>/<int:reading_id>')
+def three_card_reading(card1, card2, card3):
+    """This will redirect to the user's card_reading"""
+    # reading_id = 12
+    # crud_3 = crud.get_cards()
+    # card1 = crud_3[0].card_name
+    # card1_image = crud_3[0].card_image
+    # card2 = crud_3[1].card_name
+    # card3 = crud_3[3].card_name
 
     return render_template('cards.html', 
                             card1=card1, 
                             card2=card2, 
                             card3=card3, 
-                            card1desc=card1desc,
-                            card2desc=card2desc,
-                            card3desc=card3desc,
-                            img_name1=img_name1,
-                            img_name2=img_name2,
-                            img_name3=img_name3,
-                            orient_the_card1=orient_the_card1,
-                            orient_the_card2=orient_the_card2,
-                            orient_the_card3=orient_the_card3
+                            # card1desc=card1desc,
+                            # card2desc=card2desc,
+                            # card3desc=card3desc,
+                            #img_name1=img_name1,
+                            # img_name2=img_name2,
+                            # img_name3=img_name3,
+                            # orient_the_card1=orient_the_card1,
+                            # orient_the_card2=orient_the_card2,
+                            # orient_the_card3=orient_the_card3,
+                            reading_id=reading_id
                             )
 
-# @app.route('/threecards')
+@app.route('/get_cards_function/')
+def get_cards(position1=0, position2=1, position3=2):
+    #app.route('/username=<username>&password=<password>')
+    """psuedocode for making readings.....
+    """
+    # in crud.py : create_reading and card_reading 
+    # use create_reading card_reading..... in server to send card info to /cards.html
+    # html:
+    #  button where the user can "save" a reading
+    # action to bring you to the user_profile.html --> update the reading object to have a user_id !Null
+        # save the reading to the user profile, and take you to user profile with list of past readings. 
+    # have unique urls for each reading. 
     
+    crud_3 = crud.get_cards()
+    card1_name = crud_3[0].card_name
+    card1_image = crud_3[0].card_image
+    card2_name = crud_3[1].card_name
+    card1_suit = crud_3[0].card_suit
+    card3_name = crud_3[2].card_name
+    card1_meaning =  crud_3[0].card_meaning_up
+    print(crud_3)
+    
+    """View three card."""
+
+    orient_the_card1 = orient_the_card()
+    orient_the_card2 = orient_the_card()
+    orient_the_card3 = orient_the_card()
+   
+    card1 = card1_name, card1_image, orient_the_card1
+    card2 = card2_name, card2_image, orient_the_card2
+    card3 = card3_name, card3_image, orient_the_card3
+    reading_id = crud.create_reading(3)
+    return redirect(url_for('three_card_reading', card1=card1_name,
+                            card2=card2_name,
+                            #img_name1=card1_image,
+                            # # card2=card2, 
+                            card3=card3_name, 
+                            # #card1desc=card1desc,
+                            # #card2desc=card2desc,
+                            # #card3desc=card3desc,
+                            # orient_the_card1=orient_the_card1,
+                            # orient_the_card2=orient_the_card2,
+                            # orient_the_card3=orient_the_card3,
+                            reading_id=reading_id
+                            ))
         
     
 if __name__ == '__main__':
