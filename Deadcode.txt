@@ -2,12 +2,32 @@ Dead code
 
 Space for functions and other code that needs to hang out but doesn't fit the program right now....
 
+    <!-- <h1>{{ card1_name }}</h1>
+        <a>{{card1_meaning}}</a>
+        <a>{{card1_meaning_rev}}</a> -->
+      </div>
+      <!-- <div id="card2">
+        <img id="img" src="/static/back_of_cards.jpg" width="300" height="400">
+        <img id="card" src="{{ card2_image }}" width="300" height="400">
+        <h1>{{ card2_name }}</h1>
+        <a>{{card2_meaning}}</a>
+        <a>{{card2_meaning_rev}}</a>
+      </div>
+      <div id="card3">
+        <img id="img" src="/static/back_of_cards.jpg" width="300" height="400">
+        <img id="card" src="{{ card3_image }}" width="300" height="400">
+        <h1>{{ card3_name }}</h1>
+        <a>{{card3_meaning}}</a>
+        <a>{{card3_meaning_rev}}</a>
+      </div> -->
+        
+
 #app.route('/username=<username>&password=<password>')
 #  button where the user can "save" a reading
     # action to bring you to the user_profile.html --> update the reading object to have a user_id !Null
         # save the reading to the user profile, and take you to user profile with list of past readings. 
     # have unique urls for each reading. 
-    
+
 #this is the API request for three random cards
     # server_cards3 = requests.get('https://rws-cards-api.herokuapp.com/api/v1/cards/random?n=3')
     # #this turns the json into a dictionary

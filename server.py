@@ -84,11 +84,11 @@ def card_reading(reading_id):
 
 
 
-@app.route('/threecards/<reading_id>')
+@app.route('/threecards/<int:reading_id>')
 def three_card_reading(reading_id):
     """This will redirect to the user's card_reading"""
     reading_id_from_crud = crud.Reading.query.get(reading_id)
-    card_reading_from_crud = crud.CardReading.query.filter(CardReading.reading_id == 1)
+    card_reading_from_crud = crud.CardReading.query.filter(reading_id)
     
     print("****"*15)
     print(card_reading_from_crud)
@@ -97,14 +97,14 @@ def three_card_reading(reading_id):
     cardreading_card1_id = card_reading_from_crud[0].card_id
     card2_id = card_reading_from_crud[1].card_id
     card3_id = card_reading_from_crud[2].card_id
-    card1_card = crud.get_card(cardreading_card1_id)
+    card1_image = crud.get_card_image(cardreading_card1_id)
     print("$$$"*25)
-    print(card1_card)
-    return render_template("cards.html", 
-                            card1=card1_card, 
-                            card1_image=card1_image, 
+    print(card1_image)
+    print(cardreading_card1_id)
+    return render_template("saved_3card_spread.html", 
+                            #card1=card1_card, 
+                            card1_image=card1_image
                             #card1_meaning=card1_meaning,
-                            reading_id=reading_id_from_crud
                             )
 
 @app.route('/get_cards_function/')
