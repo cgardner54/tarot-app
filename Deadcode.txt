@@ -141,3 +141,18 @@ def spread(spread_id):
         return jsonify({'status': 'error',
                         'message': 'No spread found with that ID'})
  <!-- <img src="{{ img_name1 }}" hidden alt="{{ card1 }}" id="card" value="2" style="width:300px;height:400px;"> -->
+
+  #card1 = api_cards['cards'][position1]['name']
+    #card1desc = api_cards['cards'][position1][orient_the_card1]
+    #card2 = api_cards['cards'][position2]['name']
+    #card2desc = api_cards['cards'][position2][orient_the_card2]
+    #card3 = api_cards['cards'][position3]['name']
+    #card3desc = api_cards['cards'][position3][orient_the_card3]
+
+    #reading id here or card reading id to save the reading
+    #crud.reading(reading_id=1, spread_id=3, cardreading_id, card_id, 
+    # orientation, card_id2, orientation3, ...)
+
+    card1 = card1_name, card1_image, orient_the_card1
+    card2 = card2_name, card2_image, orient_the_card2
+    card3 = card3_name, card3_image, orient_the_card3

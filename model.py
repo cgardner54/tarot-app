@@ -242,4 +242,5 @@ if __name__ == '__main__':
     #print("This one")
     
     db.create_all()
-    
+    create_3_card_spread()
+    create_cards()

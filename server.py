@@ -4,7 +4,7 @@ import requests, random
 from Imageflip import flip_mirror
 from PIL import Image, ImageOps 
 from flask import Flask, jsonify, render_template, redirect, url_for
-from model import db, connect_to_db, Card, Deck, Spread, User, Reading, CardReading, create_3_card_spread
+from model import db, connect_to_db, Card, Deck, Spread, User, Reading, CardReading
 import crud
 from jinja2 import StrictUndefined
 
@@ -12,14 +12,16 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
-def orient_the_card():
+def orient_the_card(position=0):
     """This randomly decides what direction the card should appear.
         Cards have a 1/4 chance of being reversed."""
+    meaning_rev = crud_3[0].card_meaning_reversed
+    meaning_up = crud_3[0].card_meaning_up
     random_number = random.randint(0, 3)
     if random_number == 0:
-        return "meaning_rev"
+        return meaning_rev
     else:
-        return "meaning_up"
+        return meaning_up
 
 @app.route('/')
 def homepage():
@@ -82,30 +84,17 @@ def card_reading(reading_id):
 
 
 
-@app.route('/threecards/<string:card1>/<string:card2>/<string:card3>/<int:reading_id>')
-def three_card_reading(card1, card2, card3):
+@app.route('/threecards/<reading_id>')
+def three_card_reading(reading_id):
     """This will redirect to the user's card_reading"""
-    # reading_id = 12
-    # crud_3 = crud.get_cards()
-    # card1 = crud_3[0].card_name
-    # card1_image = crud_3[0].card_image
-    # card2 = crud_3[1].card_name
-    # card3 = crud_3[3].card_name
-
-    return render_template('cards.html', 
+    reading_id_from_crud = crud.Reading.query.get(reading_id)
+    card_reading_from_crud = crud.CardReading.query.card_id.all(reading_id=reading_id_from_crud)
+    print(card_reading_from_crud)
+    return render_template("cards.html", 
                             card1=card1, 
-                            card2=card2, 
-                            card3=card3, 
-                            # card1desc=card1desc,
-                            # card2desc=card2desc,
-                            # card3desc=card3desc,
-                            #img_name1=img_name1,
-                            # img_name2=img_name2,
-                            # img_name3=img_name3,
-                            # orient_the_card1=orient_the_card1,
-                            # orient_the_card2=orient_the_card2,
-                            # orient_the_card3=orient_the_card3,
-                            reading_id=reading_id
+                            card1_image=card1_image, 
+                            card1_meaning=card1_meaning,
+                            reading_id = reading_id
                             )
 
 @app.route('/get_cards_function/')
@@ -113,46 +102,55 @@ def get_cards(position1=0, position2=1, position3=2):
     #app.route('/username=<username>&password=<password>')
     """psuedocode for making readings.....
     """
-    # in crud.py : create_reading and card_reading 
-    # use create_reading card_reading..... in server to send card info to /cards.html
-    # html:
     #  button where the user can "save" a reading
     # action to bring you to the user_profile.html --> update the reading object to have a user_id !Null
         # save the reading to the user profile, and take you to user profile with list of past readings. 
     # have unique urls for each reading. 
-    
     crud_3 = crud.get_cards()
-    card1_name = crud_3[0].card_name
-    card1_image = crud_3[0].card_image
-    card2_name = crud_3[1].card_name
-    card1_suit = crud_3[0].card_suit
-    card3_name = crud_3[2].card_name
-    card1_meaning =  crud_3[0].card_meaning_up
-    print(crud_3)
     
     """View three card."""
-
-    orient_the_card1 = orient_the_card()
-    orient_the_card2 = orient_the_card()
-    orient_the_card3 = orient_the_card()
+    # orient_the_card1 = orient_the_card()
+    # orient_the_card2 = orient_the_card()
+    # orient_the_card3 = orient_the_card()
    
-    card1 = card1_name, card1_image, orient_the_card1
-    card2 = card2_name, card2_image, orient_the_card2
-    card3 = card3_name, card3_image, orient_the_card3
-    reading_id = crud.create_reading(3)
-    return redirect(url_for('three_card_reading', card1=card1_name,
-                            card2=card2_name,
-                            #img_name1=card1_image,
-                            # # card2=card2, 
-                            card3=card3_name, 
-                            # #card1desc=card1desc,
-                            # #card2desc=card2desc,
-                            # #card3desc=card3desc,
-                            # orient_the_card1=orient_the_card1,
-                            # orient_the_card2=orient_the_card2,
-                            # orient_the_card3=orient_the_card3,
-                            reading_id=reading_id
-                            ))
+    
+    reading_id = crud.create_reading(3).reading_id
+    card_reading1 = crud.card_reading(reading_id, crud_3[0].card_id, crud_3[0].card_meaning_reversed) #, #orient_the_card1
+    card_reading2 = crud.card_reading(reading_id, crud_3[1].card_id, crud_3[1].card_meaning_reversed)#, #orient_the_card2
+    card_reading3 = crud.card_reading(reading_id, crud_3[2].card_id, crud_3[2].card_meaning_reversed)#, #orient_the_card3
+    print("********")
+    print(reading_id)
+
+    #Card1
+    card1_image = crud_3[0].card_image
+    card1_name = crud_3[0].card_name
+    card1_meaning = crud_3[0].card_meaning_up
+    card1_meaning_rev = crud_3[0].card_meaning_reversed
+    print("#######")
+    
+    #Card2
+    card2_image = crud_3[1].card_image
+    card2_name = crud_3[1].card_name
+    card2_meaning = crud_3[1].card_meaning_up
+    card2_meaning_rev = crud_3[1].card_meaning_reversed
+    
+    #Card3
+    card3_image = crud_3[2].card_image
+    card3_name = crud_3[2].card_name
+    card3_meaning = crud_3[2].card_meaning_up
+    card3_meaning_rev = crud_3[2].card_meaning_reversed
+    
+    return render_template('cards.html',reading_id=reading_id,
+                            card1_name=card1_name,
+                            card1_image=card1_image,
+                            card1_meaning=card1_meaning,
+                            card2_name=card2_name,
+                            card2_image=card2_image,
+                            card2_meaning=card2_meaning,
+                            card3_name=card3_name,
+                            card3_image=card3_image,
+                            card3_meaning=card3_meaning
+                            )
         
     
 if __name__ == '__main__':

@@ -5,17 +5,30 @@
 
 {% block body %}
     <div id="three_card_container">
+      <div id="card1">
         <img id="img" src="static/back_of_cards.jpg" width="300" height="400">
-        <h1>{{ card1 }}</h1>
         <img id="img" src="{{ card1_image }}" width="300" height="400">
-        <h1>{{ card2 }}</h1>
-        <h1>{{ card3 }}</h1>
+        <h1>{{ card1_name }}</h1>
+        <a>{{card1_meaning}}</a>
+      </div>
+      <div id="card2">
+        <img id="img" src="static/back_of_cards.jpg" width="300" height="400">
+        <img id="img" src="{{ card2_image }}" width="300" height="400">
+        <h1>{{ card2_name }}</h1>
+        <a>{{card2_meaning}}</a>
+      </div>
+      <div id="card3">
+        <img id="img" src="static/back_of_cards.jpg" width="300" height="400">
+        <img id="img" src="{{ card3_image }}" width="300" height="400">
+        <h1>{{ card3_name }}</h1>
+        <a>{{card3_meaning}}</a>
+      </div>
         
 
       
       </div>
     <div id ="save_reading">
-      <a href="/get_cards_function/<int:reading_id>">Save Your Reading</a>
+      <a href="/threecards/{{ reading_id }}">Save Your Reading</a>
     </div>
 <script src="static/stuff.js"></script>
 {% endblock %}

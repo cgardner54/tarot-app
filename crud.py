@@ -2,17 +2,18 @@ from sqlalchemy.sql.expression import func
 from random import choices, sample, randint
 from model import db, connect_to_db, Card, Spread, Deck, Reading, CardReading, User
 
-def reading(spread_id):
 
-    reading = Reading(randint=reading_id, spread_id=spread_id)
+def create_reading(spread_id):
+
+    reading = Reading(reading_name="spread_id",spread_id=spread_id)
 
     db.session.add(reading)
     db.session.commit()
 
     return reading
-def card_reading(reading_id, card_id):
+def card_reading(reading_id, card_id, card_orient):
 
-    card_reading = CardReading(reading_id=reading_id, card_id=card_id)
+    card_reading = CardReading(reading_id=reading_id, card_id=card_id, card_orient=card_orient)
 
     db.session.add(card_reading)
     db.session.commit()
