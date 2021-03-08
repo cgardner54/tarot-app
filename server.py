@@ -88,25 +88,32 @@ def card_reading(reading_id):
 def three_card_reading(reading_id):
     """This will redirect to the user's card_reading"""
     reading_id_from_crud = crud.Reading.query.get(reading_id)
-    card_reading_from_crud = crud.CardReading.query.card_id.all(reading_id=reading_id_from_crud)
+    card_reading_from_crud = crud.CardReading.query.filter(CardReading.reading_id == 1)
+    
+    print("****"*15)
     print(card_reading_from_crud)
+
+    print("^^^^^^"*15)
+    cardreading_card1_id = card_reading_from_crud[0].card_id
+    card2_id = card_reading_from_crud[1].card_id
+    card3_id = card_reading_from_crud[2].card_id
+    card1_card = crud.get_card(cardreading_card1_id)
+    print("$$$"*25)
+    print(card1_card)
     return render_template("cards.html", 
-                            card1=card1, 
+                            card1=card1_card, 
                             card1_image=card1_image, 
-                            card1_meaning=card1_meaning,
-                            reading_id = reading_id
+                            #card1_meaning=card1_meaning,
+                            reading_id=reading_id_from_crud
                             )
 
 @app.route('/get_cards_function/')
 def get_cards(position1=0, position2=1, position3=2):
-    #app.route('/username=<username>&password=<password>')
+    
     """psuedocode for making readings.....
     """
-    #  button where the user can "save" a reading
-    # action to bring you to the user_profile.html --> update the reading object to have a user_id !Null
-        # save the reading to the user profile, and take you to user profile with list of past readings. 
-    # have unique urls for each reading. 
-     # orient_the_card1 = orient_the_card()
+    
+    # orient_the_card1 = orient_the_card()
     # orient_the_card2 = orient_the_card()
     # orient_the_card3 = orient_the_card()
     """View three card."""

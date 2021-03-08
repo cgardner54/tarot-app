@@ -51,6 +51,9 @@ def get_cards():
     Card.query.all()
     return cards
 
+def get_card(card_id):
+    card = Card.query.filter(Card.card_id == card_id)
+    return card
 #pusedo-code here
 # def select_cards_3(deck_name=tarot):
 #     reading = []
