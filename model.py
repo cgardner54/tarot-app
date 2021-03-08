@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 #import crud
 from jinja2 import StrictUndefined
 #import server
-#os.system('dropdb tarot')
+os.system('dropdb tarot')
 os.system('createdb tarot')
 db = SQLAlchemy()
 #db.create_all()
@@ -42,10 +42,10 @@ def create_cards():
         if len(value) == 1:
             value = "0" + value
         if card_type == "major":
-                card_image = "static/cards/m" + value + ".jpg"
+                card_image = "/static/cards/m" + value + ".jpg"
         elif card_type == "minor":
                 suit_char = card_suit[0]
-                card_image = "static/cards/" + suit_char + value + ".jpg" 
+                card_image = "/static/cards/" + suit_char + value + ".jpg" 
         
         print(card_name, card_number, card_desc, card_image)
         
@@ -65,8 +65,7 @@ def create_3_card_spread():
     spread_name = 3
     qty_cards_in_spread = 3
 
-    spread = Spread(spread_id=3,
-                    spread_name=spread_name,
+    spread = Spread(spread_name=spread_name,
                     qty_cards_in_spread=qty_cards_in_spread)
     
     db.session.add(spread)

@@ -3,9 +3,15 @@ from random import choices, sample, randint
 from model import db, connect_to_db, Card, Spread, Deck, Reading, CardReading, User
 
 
-def create_reading(spread_id):
 
-    reading = Reading(reading_name="spread_id",spread_id=spread_id)
+def get_three_card_spread(spread_name=3):
+    spread = Spread.query.all()
+    spread_id = spread[0].spread_id
+    return spread_id
+
+def create_reading(spread_name,spread_id):
+
+    reading = Reading(reading_name=spread_name, spread_id=spread_id)
 
     db.session.add(reading)
     db.session.commit()

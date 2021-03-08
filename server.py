@@ -106,15 +106,15 @@ def get_cards(position1=0, position2=1, position3=2):
     # action to bring you to the user_profile.html --> update the reading object to have a user_id !Null
         # save the reading to the user profile, and take you to user profile with list of past readings. 
     # have unique urls for each reading. 
-    crud_3 = crud.get_cards()
-    
-    """View three card."""
-    # orient_the_card1 = orient_the_card()
+     # orient_the_card1 = orient_the_card()
     # orient_the_card2 = orient_the_card()
     # orient_the_card3 = orient_the_card()
-   
-    
-    reading_id = crud.create_reading(3).reading_id
+    """View three card."""
+    crud_3 = crud.get_cards()
+    """create spreads and readings"""
+    spread_name = 3
+    spread_id = crud.get_three_card_spread()
+    reading_id = crud.create_reading(spread_name, spread_id).reading_id
     card_reading1 = crud.card_reading(reading_id, crud_3[0].card_id, crud_3[0].card_meaning_reversed) #, #orient_the_card1
     card_reading2 = crud.card_reading(reading_id, crud_3[1].card_id, crud_3[1].card_meaning_reversed)#, #orient_the_card2
     card_reading3 = crud.card_reading(reading_id, crud_3[2].card_id, crud_3[2].card_meaning_reversed)#, #orient_the_card3
@@ -123,6 +123,7 @@ def get_cards(position1=0, position2=1, position3=2):
 
     #Card1
     card1_image = crud_3[0].card_image
+    print (card1_image, "$$$$$$$")
     card1_name = crud_3[0].card_name
     card1_meaning = crud_3[0].card_meaning_up
     card1_meaning_rev = crud_3[0].card_meaning_reversed
@@ -149,7 +150,10 @@ def get_cards(position1=0, position2=1, position3=2):
                             card2_meaning=card2_meaning,
                             card3_name=card3_name,
                             card3_image=card3_image,
-                            card3_meaning=card3_meaning
+                            card3_meaning=card3_meaning,
+                            card1_meaning_rev=card1_meaning_rev,
+                            card2_meaning_rev=card2_meaning_rev,
+                            card3_meaning_rev=card3_meaning_rev
                             )
         
     
