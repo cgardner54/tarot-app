@@ -54,6 +54,7 @@ def get_cards():
 def get_card_image(card_id):
     card = Card.query.get(card_id)
     return card.card_image
+
 #pusedo-code here
 # def select_cards_3(deck_name=tarot):
 #     reading = []

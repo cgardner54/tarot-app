@@ -95,15 +95,19 @@ def three_card_reading(reading_id):
 
     print("^^^^^^"*15)
     cardreading_card1_id = card_reading_from_crud[0].card_id
-    card2_id = card_reading_from_crud[1].card_id
-    card3_id = card_reading_from_crud[2].card_id
+    cardreading_card2_id = card_reading_from_crud[1].card_id
+    cardreading_card3_id = card_reading_from_crud[2].card_id
     card1_image = crud.get_card_image(cardreading_card1_id)
+    card2_image = crud.get_card_image(cardreading_card2_id)
+    card3_image = crud.get_card_image(cardreading_card3_id)
     print("$$$"*25)
     print(card1_image)
     print(cardreading_card1_id)
     return render_template("saved_3card_spread.html", 
                             #card1=card1_card, 
-                            card1_image=card1_image
+                            card1_image=card1_image,
+                            card2_image=card2_image,
+                            card3_image=card3_image
                             #card1_meaning=card1_meaning,
                             )
 

@@ -22,18 +22,77 @@
 	color: black;
   }
   
-  /* Add a color to the active/current link */
+  Add a color to the active/current link */
   .topnav a.active {
 	background-color: purple;
 	color: white;
   }
-/* body {
+  body {
 	font-family: sans-serif;
 	background-color: #f8ceec;
-	background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
-}  */
+	background-image: url("/static/unicorn_background.jpg");
+	background-repeat: no-repeat;
+	/* This text-align, aligns the cards */
+	text-align: center;
 
+} 
+.background-image {
+	filter: blur(8px);
+
+}
+
+.grid-container {
+	display: inline-grid;
+	grid-template-columns: auto auto auto;
+	padding: 10px;
+  }
+.flip-card1, .flip-card2, .flip-card3 {
+	padding: 20px;
+	text-align: center;
+  }
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card1, .flip-card2, .flip-card3 {
+	background-color: transparent;
+	width: 600px;
+	height: 800px;
+	perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  }
   
+  /* This container is needed to position the front and back side */
+  .card1, .card2, .card3 {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	transition: transform 0.8s;
+	transform-style: preserve-3d;
+  }
+ 
+  /* Do an horizontal flip when you move the mouse over the flip box container */
+  	.card1.is-flipped, .card2.is-flipped, .card3.is-flipped {
+		transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .flip-card-front, .flip-card-back {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden; /* Safari */
+	backface-visibility: hidden;
+  }
+  
+  /* Style the front side (fallback if image is missing) */
+  .flip-card-front {
+	background-color: #bbb;
+	color: black;
+  }
+
+  /* Style the back side */
+  .flip-card-back {
+	transform: rotateY(180deg);
+  }
 
 /* #three_card_container {
 	margin: 0 auto;
@@ -77,7 +136,5 @@ h3 {
 	grid-area: info;
 }
 
-#meaning_rev {
-    transform: rotate(180deg);        
-}
+
 #topnav
