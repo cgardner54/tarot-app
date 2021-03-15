@@ -38,7 +38,6 @@
 } 
 .background-image {
 	filter: blur(8px);
-
 }
 
 .grid-container {
@@ -54,8 +53,8 @@
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-card1, .flip-card2, .flip-card3 {
 	background-color: transparent;
-	width: 600px;
-	height: 800px;
+	width: 300px;
+	height: 400px;
 	perspective: 1000px; /* Remove this if you don't want the 3D effect */
   }
   
@@ -82,7 +81,7 @@
 	-webkit-backface-visibility: hidden; /* Safari */
 	backface-visibility: hidden;
   }
-  
+
   /* Style the front side (fallback if image is missing) */
   .flip-card-front {
 	background-color: #bbb;
@@ -94,6 +93,26 @@
 	transform: rotateY(180deg);
   }
 
+#card_meaning_reversed {
+	transform: rotate(180deg);
+  }
+#footer_hide {
+	display: none;
+}
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding-top: .5em;
+	padding-bottom: 1em;
+	background-color: #ffe0e0;
+	/* background-color: red;
+	color: white; */
+	text-align: center;
+	font-family: 'Merriweather', serif;
+	font-size: 1.2em;
+ }
 /* #three_card_container {
 	margin: 0 auto;
   }
@@ -121,20 +140,16 @@ p, dt {
 }
 
 h3 {
-	font-size: 1.4em;
+	font-family: 'Quattrocento Sans', serif;
+	font-size: 1em;
+}
+h1 {
+	font-family: 'Merienda', cursive;
+	font-size: 1.5em;
 }
 
-#description {
-	grid-area: desc;
+#footer_hide {
+	display: none;
 }
-
-#select-human {
-	grid-area: form;
-}
-
-#display-human {
-	grid-area: info;
-}
-
 
 #topnav

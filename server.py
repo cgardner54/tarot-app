@@ -12,16 +12,14 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
-def orient_the_card(position=0):
+def orient_the_card():
     """This randomly decides what direction the card should appear.
         Cards have a 1/4 chance of being reversed."""
-    meaning_rev = crud_3[0].card_meaning_reversed
-    meaning_up = crud_3[0].card_meaning_up
-    random_number = random.randint(0, 3)
+    random_number = random.randint(0, 1)
     if random_number == 0:
-        return meaning_rev
+        return "card_meaning_reversed"
     else:
-        return meaning_up
+        return "card_meaning_up"
 
 @app.route('/')
 def homepage():
@@ -82,89 +80,132 @@ def card_reading(reading_id):
         return jsonify({'status': 'error',
                         'message': 'No reading found with that ID'})
 
-
-
 @app.route('/threecards/<int:reading_id>')
 def three_card_reading(reading_id):
     """This will redirect to the user's card_reading"""
     reading_id_from_crud = crud.Reading.query.get(reading_id)
-    card_reading_from_crud = crud.CardReading.query.filter(reading_id)
+    print(reading_id_from_crud)
+    card_reading_from_crud = CardReading.query.filter(CardReading.reading_id == reading_id).all()
     
     print("****"*15)
     print(card_reading_from_crud)
 
     print("^^^^^^"*15)
-    cardreading_card1_id = card_reading_from_crud[0].card_id
-    cardreading_card2_id = card_reading_from_crud[1].card_id
-    cardreading_card3_id = card_reading_from_crud[2].card_id
-    card1_image = crud.get_card_image(cardreading_card1_id)
-    card2_image = crud.get_card_image(cardreading_card2_id)
-    card3_image = crud.get_card_image(cardreading_card3_id)
-    print("$$$"*25)
-    print(card1_image)
-    print(cardreading_card1_id)
-    return render_template("saved_3card_spread.html", 
-                            #card1=card1_card, 
+    """ Card Ids from reading"""
+    cardreading_card1_card_id = card_reading_from_crud[0].card_id
+    cardreading_card2_card_id = card_reading_from_crud[1].card_id
+    cardreading_card3_card_id = card_reading_from_crud[2].card_id
+
+    """ card images """
+    card1_image = crud.get_card_by_id(cardreading_card1_card_id).card_image
+    card2_image = crud.get_card_by_id(cardreading_card2_card_id).card_image
+    card3_image = crud.get_card_by_id(cardreading_card3_card_id).card_image
+
+    """ Card Name"""
+    card1_name = crud.get_card_by_id(cardreading_card1_card_id).card_name
+    card2_name = crud.get_card_by_id(cardreading_card2_card_id).card_name
+    card3_name = crud.get_card_by_id(cardreading_card3_card_id).card_name
+    
+    """card orientation"""
+    cardreading_card1_orient = card_reading_from_crud[0].card_orient
+    cardreading_card2_orient = card_reading_from_crud[1].card_orient
+    cardreading_card3_orient = card_reading_from_crud[2].card_orient
+
+    """card meaning"""
+    card1_meaning = crud.get_card_by_id(cardreading_card1_card_id).card_meaning_up
+    if cardreading_card1_orient == "card_meaning_reversed":
+        card1_meaning = crud.get_card_by_id(cardreading_card1_card_id).card_meaning_reversed
+
+    card2_meaning = crud.get_card_by_id(cardreading_card2_card_id).card_meaning_up
+    if cardreading_card2_orient == "card_meaning_reversed":
+        card2_meaning = crud.get_card_by_id(cardreading_card2_card_id).card_meaning_reversed
+    
+    card3_meaning = crud.get_card_by_id(cardreading_card3_card_id).card_meaning_up
+    if cardreading_card3_orient == "card_meaning_reversed":
+        card3_meaning = crud.get_card_by_id(cardreading_card3_card_id).card_meaning_reversed
+
+
+    """hide the footer!"""
+    reveal = "footer_hide"
+    return render_template("cards.html",
+                            reading_id=reading_id_from_crud,
+                            card1_name=card1_name,
                             card1_image=card1_image,
+                            card1_meaning=card1_meaning,
+                            orient1=cardreading_card1_orient,
+                            card2_name=card2_name,
                             card2_image=card2_image,
-                            card3_image=card3_image
-                            #card1_meaning=card1_meaning,
+                            card2_meaning=card2_meaning,
+                            orient2=cardreading_card2_orient,
+                            card3_name=card3_name,
+                            card3_image=card3_image,
+                            card3_meaning=card3_meaning,
+                            orient3=cardreading_card3_orient,
+                            reveal=reveal
                             )
 
 @app.route('/get_cards_function/')
-def get_cards(position1=0, position2=1, position3=2):
-    
-    """psuedocode for making readings.....
-    """
-    
-    # orient_the_card1 = orient_the_card()
-    # orient_the_card2 = orient_the_card()
-    # orient_the_card3 = orient_the_card()
+def get_cards():
     """View three card."""
+
     crud_3 = crud.get_cards()
     """create spreads and readings"""
     spread_name = 3
     spread_id = crud.get_three_card_spread()
     reading_id = crud.create_reading(spread_name, spread_id).reading_id
-    card_reading1 = crud.card_reading(reading_id, crud_3[0].card_id, crud_3[0].card_meaning_reversed) #, #orient_the_card1
-    card_reading2 = crud.card_reading(reading_id, crud_3[1].card_id, crud_3[1].card_meaning_reversed)#, #orient_the_card2
-    card_reading3 = crud.card_reading(reading_id, crud_3[2].card_id, crud_3[2].card_meaning_reversed)#, #orient_the_card3
-    print("********")
-    print(reading_id)
+    
+    """Select the orientation of the cards, reversed or upright"""
+    card_orient0 = orient_the_card()
+    card_orient1 = orient_the_card()
+    card_orient2 = orient_the_card()
 
+    """submit the reading information to card_reading table, 
+        Allows user to recreate the reading if they'd like to"""
+    card_reading1 = crud.card_reading(reading_id, crud_3[0].card_id, card_orient0)
+    card_reading2 = crud.card_reading(reading_id, crud_3[1].card_id, card_orient1)
+    card_reading3 = crud.card_reading(reading_id, crud_3[2].card_id, card_orient2)
+    
+    """Create the variables to pass to HTML for each card, 
+                Cards will now be refered to their position number, 1,2,3 instead of index 0,1,2
+    """
     #Card1
     card1_image = crud_3[0].card_image
-    print (card1_image, "$$$$$$$")
     card1_name = crud_3[0].card_name
     card1_meaning = crud_3[0].card_meaning_up
-    card1_meaning_rev = crud_3[0].card_meaning_reversed
-    print("#######")
-    
+    orient1 = card_orient0
+    if orient1 == "card_meaning_reversed":
+        card1_meaning = crud_3[0].card_meaning_reversed
     #Card2
     card2_image = crud_3[1].card_image
     card2_name = crud_3[1].card_name
     card2_meaning = crud_3[1].card_meaning_up
-    card2_meaning_rev = crud_3[1].card_meaning_reversed
+    orient2 = card_orient1
+    if orient2 == "card_meaning_reversed":
+        card2_meaning = crud_3[1].card_meaning_reversed
     
     #Card3
     card3_image = crud_3[2].card_image
     card3_name = crud_3[2].card_name
     card3_meaning = crud_3[2].card_meaning_up
-    card3_meaning_rev = crud_3[2].card_meaning_reversed
+    orient3 = card_orient2
+    if orient3 == "card_meaning_reversed":
+        card3_meaning = crud_3[2].card_meaning_reversed
     
-    return render_template('cards.html',reading_id=reading_id,
+    """render template and pass variables to the HTML macros"""
+    return render_template('cards.html', reading_id=reading_id,
                             card1_name=card1_name,
                             card1_image=card1_image,
                             card1_meaning=card1_meaning,
+                            orient1=orient1,
                             card2_name=card2_name,
                             card2_image=card2_image,
                             card2_meaning=card2_meaning,
+                            orient2=orient2,
                             card3_name=card3_name,
                             card3_image=card3_image,
                             card3_meaning=card3_meaning,
-                            card1_meaning_rev=card1_meaning_rev,
-                            card2_meaning_rev=card2_meaning_rev,
-                            card3_meaning_rev=card3_meaning_rev
+                            orient3=orient3,
+                            reveal="footer"
                             )
         
     

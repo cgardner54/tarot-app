@@ -204,7 +204,7 @@ class CardReading(db.Model):
 
     card = db.relationship('Card', backref="cardreadings")
     
-    #reading = db.relationship('Reading', backref="cardreadings")
+    reading = db.relationship('Reading', backref="cardreadings")
     # Reading.query.filterby(reading_id=cardreading.reading_id) --> Reading associated
 
      

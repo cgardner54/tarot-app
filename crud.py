@@ -17,6 +17,7 @@ def create_reading(spread_name,spread_id):
     db.session.commit()
 
     return reading
+    
 def card_reading(reading_id, card_id, card_orient):
 
     card_reading = CardReading(reading_id=reading_id, card_id=card_id, card_orient=card_orient)
@@ -51,9 +52,13 @@ def get_cards():
     Card.query.all()
     return cards
 
-def get_card_image(card_id):
+def get_card_by_id(card_id):
     card = Card.query.get(card_id)
-    return card.card_image
+    return card
+
+def get_card_reading(reading_id_card):
+    card_reading = CardReading.query.filter(reading_id == 3)
+    return card_reading
 
 #pusedo-code here
 # def select_cards_3(deck_name=tarot):
